@@ -1,7 +1,9 @@
 #include<stdio.h> 
 #include<conio.h>
+#include<string.h>
 #include "Insert Items.h"
 #include "Modify Items.h"
+#include "Suppliers.h"
 #include "User Input.h"
 void CreateInvoice();
 void InventoryReport();
