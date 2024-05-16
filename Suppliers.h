@@ -14,10 +14,12 @@ void SuppliersData(){
 	FileExistData=fopen("Suppliers.csv","r");
 	if(FileExistData != NULL){
 		int tempID, maxID=1;
-		 char line[256];
-        while (fgets(line, sizeof(line), FileExistData)) {
-			Data=strtok(line,",");
+	while (fscanf(FileExistData,"\n%d",&tempID) != EOF ){
+		printf("The val of tempid %d",tempID);
+		    if (tempID > maxID) {
+            maxID = tempID;
         }
+	}
 	SuppliersFilePointer=fopen("Suppliers.csv","a");
 	fprintf(SuppliersFilePointer,"\n%d, %s, %d, %d",maxID,SuppliersName,SuppliersMobile,TotalCost);
 	}else{
@@ -25,4 +27,5 @@ void SuppliersData(){
 	fprintf(SuppliersFilePointer,"ID, Suppliers Name, Suppliers Mobile, Total Cost");	
 	fprintf(SuppliersFilePointer,"\n1, %s, %d, %d",SuppliersName,SuppliersMobile,TotalCost);
 	}
+	fclose(FileExistData);
     }

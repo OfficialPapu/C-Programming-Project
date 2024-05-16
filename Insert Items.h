@@ -29,6 +29,7 @@ int InsertItems(){
 	fprintf(InsertFilePointer,"\n%d, %s, %d, %d",ID,ProductName,Price,Qty);	
 	}
 	}
+	fclose(FileExistData);
 	system("cls");
 	printf("\n Congrats Product inserted Sucessfully");
 	getch();
