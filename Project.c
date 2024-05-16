@@ -12,7 +12,8 @@ int main(){
 	Operation = UserInput();
 	while (Operation != 5){	
 	if(Operation==1){
-		InsertItems();
+		// InsertItems();
+		SuppliersData();
 		Operation = UserInput();
 	}else if(Operation==2){
 		ModifyItems();
@@ -26,8 +27,10 @@ int main(){
 	}else if(Operation==5){
 		return 0;
 	}else{
-		 system("cls");
-		printf("Wrong Choice");
+		system("cls");
+		printf("Wrong Choice!!");
+		getch();
+		Operation = UserInput();
 	}
 	}
 	return 0;
