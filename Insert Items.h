@@ -1,7 +1,7 @@
 int InsertItems(){
-	int ID, Qty, Price, FileExistData, SuppliersMobile,TotalCost, LoopCount,i;
+	int ID, Qty, Price, SuppliersMobile,TotalCost, LoopCount,i;
 	char ProductName[300], SuppliersName[300];
-	FILE *InsertFilePointer, *SuppliersFilePointer;
+	FILE *InsertFilePointer, *SuppliersFilePointer, *FileExistData;
 	SuppliersData();
 	system("cls");
 	printf("How many Product your want to insert: ");

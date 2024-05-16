@@ -12,8 +12,7 @@ int main(){
 	Operation = UserInput();
 	while (Operation != 5){	
 	if(Operation==1){
-		// InsertItems();
-		SuppliersData();
+		InsertItems();
 		Operation = UserInput();
 	}else if(Operation==2){
 		ModifyItems();
