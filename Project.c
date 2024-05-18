@@ -1,6 +1,8 @@
 #include<stdio.h> 
 #include<conio.h>
 #include<string.h>
+#include<windows.h>
+#include "Header File/Store Company Info.h"
 #include "Header File/Insert Items.h"
 #include "Header File/Modify Items.h"
 #include "Header File/Suppliers.h"
@@ -8,6 +10,7 @@
 void CreateInvoice();
 void InventoryReport();
 int main(){
+	CompanyInfo();
 	int Operation;
 	Operation = UserInput();
 	while (Operation != 5){	
