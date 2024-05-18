@@ -12,7 +12,7 @@ void SuppliersData(){
 	system("cls");
 	printf("Enter Total Purchase Cost: ");
 	scanf("%lld",&TotalCost);
-	FileExistData=fopen("Suppliers.csv","r");
+	FileExistData=fopen("Database/Suppliers.csv","r");
 	if(FileExistData != NULL){
 		int tempID, maxID=1;
 	while (fgets(line, sizeof(line),FileExistData)){
@@ -21,10 +21,10 @@ void SuppliersData(){
             maxID = tempID;
         }
 	}
-	SuppliersFilePointer=fopen("Suppliers.csv","a");
+	SuppliersFilePointer=fopen("Database/Suppliers.csv","a");
 	fprintf(SuppliersFilePointer,"\n%d, %s, %lld, %lld",tempID+1,SuppliersName,SuppliersMobile,TotalCost);
 	}else{
-	SuppliersFilePointer=fopen("Suppliers.csv","w");
+	SuppliersFilePointer=fopen("Database/Suppliers.csv","w");
 	fprintf(SuppliersFilePointer,"ID, Suppliers Name, Suppliers Mobile, Total Cost");	
 	fprintf(SuppliersFilePointer,"\n1, %s, %lld, %lld",SuppliersName,SuppliersMobile,TotalCost);
 	}

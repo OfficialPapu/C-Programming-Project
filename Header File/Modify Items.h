@@ -5,7 +5,7 @@ int ModifyItems() {
     FILE *FileExistData, *SearchFilePointer, *TempFilePointer;
 
     system("cls");
-    FileExistData = fopen("Inventory.csv", "r");
+    FileExistData = fopen("Database/Inventory.csv", "r");
     if (FileExistData == NULL) {
         system("cls");    
         printf("Something went wrong!\nFile Not Found!");
@@ -16,7 +16,7 @@ int ModifyItems() {
     printf("Search Inventory by ID: ");
     scanf("%d", &SearchID);
 
-    TempFilePointer = fopen("TempInventory.csv", "w");
+    TempFilePointer = fopen("Database/TempInventory.csv", "w");
 
     while (fgets(line, sizeof(line), FileExistData)) {
         sscanf(line, "%d,%299[^,],%d,%d", &ID, ProductName, &Qty, &Price);
@@ -38,11 +38,11 @@ int ModifyItems() {
     fclose(TempFilePointer);
 
     if (found) {
-        remove("Inventory.csv");
-        rename("TempInventory.csv", "Inventory.csv");
+        remove("Database/Inventory.csv");
+        rename("Database/TempInventory.csv", "Database/Inventory.csv");
         printf("Inventory updated successfully.\n");
     } else {
-        remove("TempInventory.csv");
+        remove("Database/TempInventory.csv");
         printf("ID %d not Found in Inventory.\n", SearchID);
     }
 
