@@ -1,10 +1,10 @@
 #include<stdio.h> 
 #include<conio.h>
 #include<string.h>
-#include "Insert Items.h"
-#include "Modify Items.h"
-#include "Suppliers.h"
-#include "User Input.h"
+#include "Header File/Insert Items.h"
+#include "Header File/Modify Items.h"
+#include "Header File/Suppliers.h"
+#include "Header File/User Input.h"
 void CreateInvoice();
 void InventoryReport();
 int main(){
