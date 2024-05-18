@@ -6,8 +6,8 @@
 #include "Header File/Insert Items.h"
 #include "Header File/Modify Items.h"
 #include "Header File/Suppliers.h"
+#include "Header File/Generate Invoice.h"
 #include "Header File/User Input.h"
-void CreateInvoice();
 void InventoryReport();
 int main(){
 	CompanyInfo();
@@ -21,7 +21,7 @@ int main(){
 		ModifyItems();
 		Operation = UserInput();
 	}else if(Operation==3){
-		CreateInvoice();
+		GenerateInvoice();
 		Operation = UserInput();
 	}else if(Operation==4){
 		InventoryReport();
@@ -36,9 +36,6 @@ int main(){
 	}
 	}
 	return 0;
-}
-void CreateInvoice(){
-	printf("Wrong Choice");
 }
 void InventoryReport(){
 	printf("Wrong Choice");

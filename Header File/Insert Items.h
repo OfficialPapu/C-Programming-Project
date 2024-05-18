@@ -25,7 +25,7 @@ int InsertItems(){
 	fprintf(InsertFilePointer,"\n%d, %s, %d, %d",ID,ProductName,Price,Qty);	
 	}else{
 	InsertFilePointer=fopen("Database/Inventory.csv","w");
-	fprintf(InsertFilePointer,"\n\nInventory ID, Product Name, Price, Qty");	
+	fprintf(InsertFilePointer,"Inventory ID, Product Name, Price, Qty");	
 	fprintf(InsertFilePointer,"\n%d, %s, %d, %d",ID,ProductName,Price,Qty);	
 	}
 	}

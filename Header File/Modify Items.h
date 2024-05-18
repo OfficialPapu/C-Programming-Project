@@ -22,10 +22,12 @@ int ModifyItems() {
         sscanf(line, "%d,%299[^,],%d,%d", &ID, ProductName, &Qty, &Price);
         if (ID == SearchID) {
             found = 1;
-            printf("Product found: %d, %s, %d, %d\n", ID, ProductName, Qty, Price);
-            printf("Enter new Quantity: ");
+            printf("\nProduct found:\n\n");
+            printf("ID\t Product Name\t Price\tQuantity");
+            printf("\n%d\t%s\t\t%d\t%d\n\n", ID, ProductName, Qty, Price);
+            printf("Enter New Quantity: ");
             scanf("%d", &Qty);
-            printf("Enter new Price: ");
+            printf("Enter New Price: ");
             scanf("%d", &Price);
 
             fprintf(TempFilePointer, "%d,%s,%d,%d\n", ID, ProductName, Qty, Price);
