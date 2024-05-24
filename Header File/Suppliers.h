@@ -4,15 +4,21 @@ void SuppliersData(){
 	char  SuppliersName[300], line[100];
 	FILE *SuppliersFilePointer;
 	system("cls");
+    clearInputBuffer();
 	printf("Enter the suppliers name: ");
-	scanf("%s",SuppliersName);
+	fgets(SuppliersName, sizeof(SuppliersName), stdin);
+	stripNewline(SuppliersName);
+	
 	system("cls");
 	printf("Enter Suppliers Mobile: ");
 	scanf("%lld",&SuppliersMobile);
+
 	system("cls");
+	clearInputBuffer();
 	printf("Enter Total Purchase Cost: ");
 	scanf("%lld",&TotalCost);
 	FileExistData=fopen("Database/Suppliers.csv","r");
+
 	if(FileExistData != NULL){
 		int tempID, maxID=1;
 	while (fgets(line, sizeof(line),FileExistData)){
@@ -21,6 +27,7 @@ void SuppliersData(){
             maxID = tempID;
         }
 	}
+	
 	SuppliersFilePointer=fopen("Database/Suppliers.csv","a");
 	fprintf(SuppliersFilePointer,"\n%d, %s, %lld, %lld",tempID+1,SuppliersName,SuppliersMobile,TotalCost);
 	}else{

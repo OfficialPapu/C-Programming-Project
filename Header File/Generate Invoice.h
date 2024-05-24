@@ -1,15 +1,16 @@
 
 int GenerateInvoice(){
     long long Mobile, CustMobile;
-    int ID[100],ProductID ,Counter = 0, RandNum, LoopCount,i;
-    char Invoice[50]="Invoice/Invoice-", InvoiceName[100],line[400], ProductName[300],CompanyName[300], Address[100], Line2[300], CustName[200],CustAddress[300];
+    int ID[100],ProductID ,Counter = 0, InvoiceID, LoopCount,i, CustomerID, CustID;
+    char Invoice[50]="Invoice/Invoice-", InvoiceName[100],line[400], ProductName[300],CompanyName[300], Address[100], Line2[300], Line3[300], CustName[200], CustAddress[300];
     srand(time(0));
-    RandNum = rand()%10000 + 1;
-    sprintf(InvoiceName, "%s%d.html", Invoice, RandNum);
-    FILE *DataFilePointer, *InvoiceFilePointer, *InvoiceNameFilePointer, *CompanyFilePointer;
-    DataFilePointer=fopen("Database/Inventory.csv","r");
+    InvoiceID = rand()%10000 + 1;
+    sprintf(InvoiceName, "%s%d.html", Invoice, InvoiceID);
+    FILE *InventoryFilePointer, *InvoiceFilePointer, *InvoiceNameFilePointer, *ExistInvoiceFilePointer, *CompanyFilePointer, *CustomerFilePointer;
+    InventoryFilePointer=fopen("Database/Inventory.csv","r");
+    ExistInvoiceFilePointer=fopen("Database/Invoice Receipt.csv","r");
     printf("Your Products are: ");
-    while (fgets(line, sizeof(line), DataFilePointer)){
+    while (fgets(line, sizeof(line), InventoryFilePointer)){
         Counter++;
         if (Counter == 1){
         printf("\n\nID\tProductName\n");
@@ -21,19 +22,38 @@ int GenerateInvoice(){
     printf("\n\nEnter how many product you want to sell (Max 100): ");
     scanf("%d",&LoopCount);
     for(i=0;i<LoopCount;i++){
+    
     printf("\nEnter product %d by their ID: ",i+1);
     scanf("%d",&ID[i]);
     }
-    printf("Enter customer name: ");
-    scanf("%s",CustName);
 
-    system("cls");
-    puts(CustName);
-getch();
-    InvoiceFilePointer=fopen("Database/Invoice Receipt.csv","w");
-    fprintf(InvoiceFilePointer,"Product ID");
+    CustomerID=CustomerInfo();
+    CustomerFilePointer=fopen("Database/Customer.csv","r");
+    int DBCustID=CustomerID-1;
+    if(DBCustID == 0){
+        DBCustID=1;
+    }
+     while (fgets(Line3, sizeof(Line3), CustomerFilePointer)) {
+        sscanf(line, "%d,%299[^,],%lld,%299[^,]", &CustID, CustName, &CustMobile, CustAddress);
+        if(DBCustID == CustID){
+            printf("id match\n");
+            return;
+        }else{
+            printf("%d id not match %d\n",DBCustID, CustID );
+        }
+     }
+
+    if(ExistInvoiceFilePointer != NULL){
+    InvoiceFilePointer=fopen("Database/Invoice Receipt.csv","a");
     for (i = 0; i < LoopCount; i++){
-        fprintf(InvoiceFilePointer,"\n%d",ID[i]);
+        fprintf(InvoiceFilePointer,"\n%d, %d",CustomerID,ID[i]);
+    }
+    }else{
+    InvoiceFilePointer=fopen("Database/Invoice Receipt.csv","w");
+    fprintf(InvoiceFilePointer,"Customer ID, Inventory ID");
+    for (i = 0; i < LoopCount; i++){
+        fprintf(InvoiceFilePointer,"\n%d, %d",CustomerID,ID[i]);
+    }
     }
 
     CreateDirectory("Invoice", NULL);
@@ -76,9 +96,9 @@ getch();
         "                                <h1>Invoice</h1>\n"
         "                            </td>\n"
         "                            <td>\n"
-        "                                Invoice #: sd<br>\n"
+        "                                Invoice #: %d<br>\n"
         "                                Created: s<br>\n"
-        "                                Due: sss\n"
+        "                                Due: 98473.00\n"
         "                            </td>\n"
         "                        </tr>\n"
         "                    </table>\n"
@@ -94,9 +114,9 @@ getch();
         "                                %s\n"
         "                            </td>\n"
         "                            <td>\n"
-        "                                Customer Name<br>\n"
-        "                                67890 Cloudy Lane<br>\n"
-        "                                Cloudytown, CA 67890\n"
+        "                                %s<br>\n"
+        "                                %lld<br>\n"
+        "                                %s\n"
         "                            </td>\n"
         "                        </tr>\n"
         "                    </table>\n"
@@ -125,11 +145,15 @@ getch();
         "        </table>\n"
         "    </div>\n"
         "</body>\n"
-        "</html>","100%",CompanyName,Address);
+        "</html>","100%",InvoiceID,CompanyName,Address,CustName,CustMobile,CustAddress);
 
-    system("cls");
     printf("Invoice is Generated: %s",InvoiceName);
-    
     getch();
+    system("cls");
+    fclose(InventoryFilePointer);
+    fclose(InvoiceFilePointer);
+    fclose(InvoiceNameFilePointer);
+    fclose(ExistInvoiceFilePointer);
+    fclose(CompanyFilePointer);
     return 0;
 }

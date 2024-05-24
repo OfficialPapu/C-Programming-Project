@@ -11,6 +11,8 @@
 #include "Header File/Suppliers.h"
 #include "Header File/Generate Invoice.h"
 #include "Header File/User Input.h"
+#include "Header File/Manage Buffer Input.h"
+#include "Header File/Store Customer Info.h"
 void InventoryReport();
 int main(){
 	CompanyInfo();
