@@ -17,7 +17,6 @@ int InsertItems(){
 	system("cls");
 	clearInputBuffer();
 	printf("Enter Product Name: ");
-	scanf("%s",ProductName);
 	fgets(ProductName, sizeof(ProductName), stdin);
 	stripNewline(ProductName);
 	
@@ -37,8 +36,9 @@ int InsertItems(){
 	fprintf(InsertFilePointer,"Inventory ID, Product Name, Price, Qty");	
 	fprintf(InsertFilePointer,"\n%d, %s, %d, %d",ID,ProductName,Price,Qty);	
 	}
-	}
+	fclose(InsertFilePointer);
 	fclose(FileExistData);
+	}
 	system("cls");
 	printf("\n Congrats Product inserted Sucessfully");
 	getch();

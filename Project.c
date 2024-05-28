@@ -13,6 +13,7 @@
 #include "Header File/User Input.h"
 #include "Header File/Manage Buffer Input.h"
 #include "Header File/Store Customer Info.h"
+#include "Header File/Get Product By Customer.h"
 void InventoryReport();
 int main(){
 	CompanyInfo();

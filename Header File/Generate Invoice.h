@@ -1,5 +1,10 @@
-
+struct ProductStruct {
+    char DBProductName[300];
+    long long DBProductPrice;
+    int ProductID;
+};
 int GenerateInvoice(){
+    struct ProductStruct Product[100];
     long long Mobile, CustMobile;
     int ID[100],ProductID ,Counter = 0, InvoiceID, LoopCount,i, CustomerID, CustID;
     char Invoice[50]="Invoice/Invoice-", InvoiceName[100],line[400], ProductName[300],CompanyName[300], Address[100], Line2[300], Line3[300], CustName[200], CustAddress[300];
@@ -29,17 +34,10 @@ int GenerateInvoice(){
 
     CustomerID=CustomerInfo();
     CustomerFilePointer=fopen("Database/Customer.csv","r");
-    int DBCustID=CustomerID-1;
-    if(DBCustID == 0){
-        DBCustID=1;
-    }
      while (fgets(Line3, sizeof(Line3), CustomerFilePointer)) {
-        sscanf(line, "%d,%299[^,],%lld,%299[^,]", &CustID, CustName, &CustMobile, CustAddress);
-        if(DBCustID == CustID){
-            printf("id match\n");
-            return;
-        }else{
-            printf("%d id not match %d\n",DBCustID, CustID );
+        sscanf(Line3, "\n%d,%299[^,],%lld,%299[^,]", &CustID, CustName, &CustMobile, CustAddress);
+        if(CustomerID == CustID){
+            break;
         }
      }
 
@@ -55,13 +53,22 @@ int GenerateInvoice(){
         fprintf(InvoiceFilePointer,"\n%d, %d",CustomerID,ID[i]);
     }
     }
+    fclose(InvoiceFilePointer);
+    int StructLength=GetProductByCustomer(CustID, Product, 100);
 
+    if(StructLength != -1){
+    int TotalDue=0;
+    for (i = 0; i < StructLength; i++){
+       TotalDue += Product[i].DBProductPrice;
+    }
+    
     CreateDirectory("Invoice", NULL);
     InvoiceNameFilePointer = fopen(InvoiceName, "w");
 
     CompanyFilePointer=fopen("Database/Company Config.csv","r");
     fgets(Line2, sizeof(Line2), CompanyFilePointer);
     sscanf(Line2,"%299[^,],%lld,%299[^,]",CompanyName,&Mobile,Address);
+   
     fprintf(InvoiceNameFilePointer,
         "<!DOCTYPE html>\n"
         "<html lang='en'>\n"
@@ -96,9 +103,9 @@ int GenerateInvoice(){
         "                                <h1>Invoice</h1>\n"
         "                            </td>\n"
         "                            <td>\n"
-        "                                Invoice #: %d<br>\n"
+        "                                Invoice : #%d<br>\n"
         "                                Created: s<br>\n"
-        "                                Due: 98473.00\n"
+        "                                Due: Rs. %d.00\n"
         "                            </td>\n"
         "                        </tr>\n"
         "                    </table>\n"
@@ -114,9 +121,9 @@ int GenerateInvoice(){
         "                                %s\n"
         "                            </td>\n"
         "                            <td>\n"
-        "                                %s<br>\n"
-        "                                %lld<br>\n"
-        "                                %s\n"
+        "                               Customer Name<br>\n"
+        "                               %s<br>\n"
+        "                               %lld<br>\n"
         "                            </td>\n"
         "                        </tr>\n"
         "                    </table>\n"
@@ -125,33 +132,32 @@ int GenerateInvoice(){
         "            <tr class='heading'>\n"
         "                <td>Item</td>\n"
         "                <td>Price</td>\n"
-        "            </tr>\n"
+        "            </tr>\n","100%",InvoiceID,TotalDue,CompanyName,Address,CustName,CustMobile);
+             
+                for (i = 0; i < StructLength; i++){
+                fprintf(InvoiceNameFilePointer,
         "            <tr class='item'>\n"
-        "                <td>Website design</td>\n"
-        "                <td>$300.00</td>\n"
-        "            </tr>\n"
-        "            <tr class='item'>\n"
-        "                <td>Hosting (3 months)</td>\n"
-        "                <td>$75.00</td>\n"
-        "            </tr>\n"
-        "            <tr class='item last'>\n"
-        "                <td>Domain name (1 year)</td>\n"
-        "                <td>$10.00</td>\n"
-        "            </tr>\n"
+        "                <td>%s</td>\n"
+        "                <td>Rs. %d.00</td>\n"
+        "            </tr>\n",Product[i].DBProductName,Product[i].DBProductPrice);
+                }
+
+            fprintf(InvoiceNameFilePointer,
         "            <tr class='total'>\n"
         "                <td></td>\n"
-        "                <td>Total: $385.00</td>\n"
+        "                <td>Total: Rs. %d.00</td>\n"
         "            </tr>\n"
         "        </table>\n"
         "    </div>\n"
         "</body>\n"
-        "</html>","100%",InvoiceID,CompanyName,Address,CustName,CustMobile,CustAddress);
+        "</html>",TotalDue);
 
+    system("cls");
     printf("Invoice is Generated: %s",InvoiceName);
     getch();
-    system("cls");
+    }
+
     fclose(InventoryFilePointer);
-    fclose(InvoiceFilePointer);
     fclose(InvoiceNameFilePointer);
     fclose(ExistInvoiceFilePointer);
     fclose(CompanyFilePointer);
