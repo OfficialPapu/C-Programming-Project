@@ -3,7 +3,7 @@ int GetProductByCustomer(int CustomerID, struct ProductStruct *Product, int maxP
     int DBCustID, InventoryID, ProductPrice, ProductQty;
     int DBInventoryIDArray[100], ProductID,i;
     int *ptr = DBInventoryIDArray;
-    FILE *InvoiceFilePointer, *InventoryFilePointer;
+    FILE *InvoiceFilePointer, *InventoryFilePointer, *TempFilePointer;
 
     InvoiceFilePointer = fopen("Database/Invoice Receipt.csv", "r");
     if (InvoiceFilePointer == NULL) {
@@ -39,28 +39,34 @@ int GetProductByCustomer(int CustomerID, struct ProductStruct *Product, int maxP
         int Errorcount=0;
     for ( i = 0; i < count; i++) {
         int ProductFound = 0; 
-        InventoryFilePointer=fopen("Database/Inventory.csv","r");
+        InventoryFilePointer=fopen("Database/Inventory.csv","r+");
+        TempFilePointer = fopen("Database/TempInventory.csv", "w");
+
         while (fgets(Line2, sizeof(Line2), InventoryFilePointer)){
-           sscanf(Line2,"%d, %299[^,], %d",&ProductID,ProductName,&ProductPrice);
+           sscanf(Line2,"%d, %299[^,], %d, %d",&ProductID,ProductName,&ProductPrice, &ProductQty);
            if(ProductID == DBInventoryIDArray[i]){
+            Product[ProductIndex].ProductID=ProductID;
             strcpy(Product[ProductIndex].DBProductName, ProductName);
             Product[ProductIndex].DBProductPrice=ProductPrice;
-            Product[ProductIndex].ProductID=ProductID;
+            Product[ProductIndex].ProductQty = ProductQty;
+            //Quantity is not decreasing
+            ProductQty--;
+            fprintf(TempFilePointer, "%d, %s, %d, %d\n", ProductID, ProductName, ProductPrice, ProductQty);
             ProductIndex++;
             ProductFound = 1; 
-            break; 
+        }else{
+            fprintf(TempFilePointer, "%s",Line2);
         }
         }   
-
+        fclose(InventoryFilePointer);
+        fclose(TempFilePointer);
     if (!ProductFound) {
         printf("\nProduct with Inventory ID %d not found. Please enter a valid Inventory ID", DBInventoryIDArray[i]);
-    }
-    }
-    
-    if(ProductIndex==0){
-        return -1;
         getch();
     }
-    
+    }
+    remove("Database/Inventory.csv");
+    rename("Database/TempInventory.csv", "Database/Inventory.csv");
+  
     return ProductIndex;
 }

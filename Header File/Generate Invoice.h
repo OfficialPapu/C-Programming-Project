@@ -1,7 +1,8 @@
 struct ProductStruct {
+    int ProductID;
     char DBProductName[300];
     long long DBProductPrice;
-    int ProductID;
+    int ProductQty;
 };
 int GenerateInvoice(){
     struct ProductStruct Product[100];
