@@ -14,7 +14,9 @@
 #include "Header File/Manage Buffer Input.h"
 #include "Header File/Store Customer Info.h"
 #include "Header File/Get Product By Customer.h"
-void InventoryReport();
+#include "Header File/Inventory Position.h"
+#include "Header File/Get All Product.h"
+#include "Header File/Report.h"
 int main(){
 	CompanyInfo();
 	int Operation;
@@ -30,7 +32,7 @@ int main(){
 		GenerateInvoice();
 		Operation = UserInput();
 	}else if(Operation==4){
-		InventoryReport();
+		Report();
 		Operation = UserInput();
 	}else if(Operation==5){
 		return 0;
@@ -42,7 +44,4 @@ int main(){
 	}
 	}
 	return 0;
-}
-void InventoryReport(){
-	printf("Wrong Choice");
 }

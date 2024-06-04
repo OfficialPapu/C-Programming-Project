@@ -153,14 +153,13 @@ int GenerateInvoice(){
         "</body>\n"
         "</html>",TotalDue);
 
-    system("cls");
-    printf("Invoice is Generated: %s",InvoiceName);
-    getch();
-    }
-
     fclose(InventoryFilePointer);
     fclose(InvoiceNameFilePointer);
     fclose(ExistInvoiceFilePointer);
     fclose(CompanyFilePointer);
+    system("cls");
+    printf("Invoice is Generated: %s",InvoiceName);
+    getch();
+    }
     return 0;
 }

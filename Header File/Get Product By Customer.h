@@ -65,8 +65,17 @@ int GetProductByCustomer(int CustomerID, struct ProductStruct *Product, int maxP
         getch();
     }
     }
-    remove("Database/Inventory.csv");
-    rename("Database/TempInventory.csv", "Database/Inventory.csv");
-  
+        fclose(InventoryFilePointer);
+
+    if (remove("Database/Inventory.csv") != 0) {
+        perror("Error deleting the file");
+            getch();
+        return 1;
+    }
+    if (rename("Database/TempInventory.csv", "Database/Inventory.csv") != 0) {
+        perror("Error renaming the file");
+            getch();
+        return 1;
+    }
     return ProductIndex;
 }
