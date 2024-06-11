@@ -52,7 +52,7 @@ int GetProductByCustomer(int CustomerID, struct ProductStruct *Product, int maxP
             Product[ProductIndex].DBProductPrice=ProductPrice;
             Product[ProductIndex].ProductQty = ProductQty;
             ProductQty--;
-            fprintf(TempFilePointer, "%d, %s, %d, %d\n", ProductID, ProductName, ProductPrice,Product[ProductIndex].ProductQty);
+            fprintf(TempFilePointer, "%d, %s, %d, %d\n", ProductID, ProductName, ProductPrice,ProductQty);
             ProductIndex++;
             ProductFound = 1; 
         }else{
