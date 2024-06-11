@@ -15,6 +15,7 @@ void printCentered(const char *text) {
 }
 
 int main() {
+    Sleep(2000); 
     printf("\n\n");
 
     printCentered("--------------------------------------------------");
