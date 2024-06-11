@@ -1,6 +1,6 @@
 int ReportInput(Operation){
     system("cls");
-    printf("1. Inventory Position\n2. Today's Profit\n\n Enter Your Choice: ");
+    printf("1. Inventory Position\n2. Today's Report\n\n Enter Your Choice: ");
     scanf("%d", &Operation);
     return Operation;
 }
@@ -11,7 +11,7 @@ void Report(){
         InventoryPositionFun();
     }
     else if (Operation == 2){
-
+        GenerateReport();
     }
     else{
         printf("Wrong Choice!!");

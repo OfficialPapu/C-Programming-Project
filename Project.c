@@ -16,6 +16,7 @@
 #include "Header File/Get Product By Customer.h"
 #include "Header File/Inventory Position.h"
 #include "Header File/Get All Product.h"
+#include "Header File/Generate Report.h"
 #include "Header File/Report.h"
 int main(){
 	CompanyInfo();
