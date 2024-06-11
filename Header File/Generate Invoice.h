@@ -25,6 +25,7 @@ int GenerateInvoice(){
         printf("\n%d\t%s",ProductID,ProductName);
         }
     }
+    fclose(InventoryFilePointer);
     printf("\n\nEnter how many product you want to sell (Max 100): ");
     scanf("%d",&LoopCount);
     for(i=0;i<LoopCount;i++){
@@ -62,14 +63,19 @@ int GenerateInvoice(){
     for (i = 0; i < StructLength; i++){
        TotalDue += Product[i].DBProductPrice;
     }
-    
     CreateDirectory("Invoice", NULL);
     InvoiceNameFilePointer = fopen(InvoiceName, "w");
+
+      time_t t;
+      struct tm *tm_info;
+      char date[11]; 
+      time(&t);
+      tm_info = localtime(&t);
+      strftime(date, sizeof(date), "%Y-%m-%d", tm_info);
 
     CompanyFilePointer=fopen("Database/Company Config.csv","r");
     fgets(Line2, sizeof(Line2), CompanyFilePointer);
     sscanf(Line2,"%299[^,],%lld,%299[^,]",CompanyName,&Mobile,Address);
-   
     fprintf(InvoiceNameFilePointer,
         "<!DOCTYPE html>\n"
         "<html lang='en'>\n"
@@ -105,7 +111,7 @@ int GenerateInvoice(){
         "                            </td>\n"
         "                            <td>\n"
         "                                Invoice : #%d<br>\n"
-        "                                Created: s<br>\n"
+        "                                Created: %s<br>\n"
         "                                Due: Rs. %d.00\n"
         "                            </td>\n"
         "                        </tr>\n"
@@ -133,7 +139,7 @@ int GenerateInvoice(){
         "            <tr class='heading'>\n"
         "                <td>Item</td>\n"
         "                <td>Price</td>\n"
-        "            </tr>\n","100%",InvoiceID,TotalDue,CompanyName,Address,CustName,CustMobile);
+        "            </tr>\n","100%",InvoiceID,date,TotalDue,CompanyName,Address,CustName,CustMobile);
              
                 for (i = 0; i < StructLength; i++){
                 fprintf(InvoiceNameFilePointer,
@@ -153,7 +159,6 @@ int GenerateInvoice(){
         "</body>\n"
         "</html>",TotalDue);
 
-    fclose(InventoryFilePointer);
     fclose(InvoiceNameFilePointer);
     fclose(ExistInvoiceFilePointer);
     fclose(CompanyFilePointer);

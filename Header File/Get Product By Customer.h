@@ -22,8 +22,8 @@ int GetProductByCustomer(int CustomerID, struct ProductStruct *Product, int maxP
             count++;
         }
     }
-
     fclose(InvoiceFilePointer);
+
     if (count == 0) {
         system("cls");
         printf("Product Not Found Please Enter a Valid ID");
@@ -37,21 +37,22 @@ int GetProductByCustomer(int CustomerID, struct ProductStruct *Product, int maxP
     }
         int ProductIndex = 0;
         int Errorcount=0;
+        
     for ( i = 0; i < count; i++) {
         int ProductFound = 0; 
         InventoryFilePointer=fopen("Database/Inventory.csv","r+");
         TempFilePointer = fopen("Database/TempInventory.csv", "w");
-
+        int LoopCount=0;
         while (fgets(Line2, sizeof(Line2), InventoryFilePointer)){
+            LoopCount++;
            sscanf(Line2,"%d, %299[^,], %d, %d",&ProductID,ProductName,&ProductPrice, &ProductQty);
-           if(ProductID == DBInventoryIDArray[i]){
+           if(ProductID == DBInventoryIDArray[i] && LoopCount !=1){
             Product[ProductIndex].ProductID=ProductID;
             strcpy(Product[ProductIndex].DBProductName, ProductName);
             Product[ProductIndex].DBProductPrice=ProductPrice;
             Product[ProductIndex].ProductQty = ProductQty;
-            //Quantity is not decreasing
             ProductQty--;
-            fprintf(TempFilePointer, "%d, %s, %d, %d\n", ProductID, ProductName, ProductPrice, ProductQty);
+            fprintf(TempFilePointer, "%d, %s, %d, %d\n", ProductID, ProductName, ProductPrice,Product[ProductIndex].ProductQty);
             ProductIndex++;
             ProductFound = 1; 
         }else{
@@ -60,22 +61,12 @@ int GetProductByCustomer(int CustomerID, struct ProductStruct *Product, int maxP
         }   
         fclose(InventoryFilePointer);
         fclose(TempFilePointer);
+        remove("Database/Inventory.csv");
+        rename("Database/TempInventory.csv", "Database/Inventory.csv");
     if (!ProductFound) {
         printf("\nProduct with Inventory ID %d not found. Please enter a valid Inventory ID", DBInventoryIDArray[i]);
         getch();
     }
-    }
-        fclose(InventoryFilePointer);
-
-    if (remove("Database/Inventory.csv") != 0) {
-        perror("Error deleting the file");
-            getch();
-        return 1;
-    }
-    if (rename("Database/TempInventory.csv", "Database/Inventory.csv") != 0) {
-        perror("Error renaming the file");
-            getch();
-        return 1;
     }
     return ProductIndex;
 }
