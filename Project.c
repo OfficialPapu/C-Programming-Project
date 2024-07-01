@@ -17,8 +17,10 @@
 #include "Header File/Inventory Position.h"
 #include "Header File/Get All Product.h"
 #include "Header File/Generate Report.h"
+#include "Header File/Front Page.h"
 #include "Header File/Report.h"
 int main(){
+	FrontPage();
 	CompanyInfo();
 	int Operation;
 	Operation = UserInput();

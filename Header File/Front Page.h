@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <conio.h>
-#include <string.h>
-#include <windows.h> 
-
 
 void printCentered(const char *text) {
     int length = strlen(text);
@@ -14,7 +9,7 @@ void printCentered(const char *text) {
     Sleep(500); 
 }
 
-int main() {
+int FrontPage() {
     Sleep(2000); 
     printf("\n\n");
 
